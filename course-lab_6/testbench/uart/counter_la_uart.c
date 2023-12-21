@@ -22,7 +22,9 @@
 #include <irq_vex.h>
 #endif
 
-
+extern int* matmul();
+extern int* qsort();
+extern int* fir();
 extern void uart_write();
 extern void uart_write_char();
 extern void uart_write_string();
@@ -149,7 +151,7 @@ void main()
 
 	//print("\n");
 	//print("Monitor: Test 1 Passed\n\n");	// Makes simulation very long!
-	reg_mprj_datal = 0xAB510000;
+	//reg_mprj_datal = 0xAB510000;
 
 #ifdef USER_PROJ_IRQ0_EN	
 	// unmask USER_IRQ_0_INTERRUPT
@@ -159,5 +161,45 @@ void main()
 	// enable user_irq_0_ev_enable
 	user_irq_0_ev_enable_write(1);	
 #endif
+
+////////////////mm///////////////////////
+	int *tmp = matmul();
+	reg_mprj_datal = *tmp << 16;
+	reg_mprj_datal = *(tmp+1) << 16;
+	reg_mprj_datal = *(tmp+2) << 16;
+	reg_mprj_datal = *(tmp+3) << 16;	
+	reg_mprj_datal = *(tmp+9) << 16;
+	reg_mprj_datal = 0xAB510000;
+////////////////fir//////////////////////
+	reg_mprj_datal = 0xAB600000;
+	tmp = fir();
+	reg_mprj_datal = *tmp << 16;
+	reg_mprj_datal = *(tmp+1) << 16;
+	reg_mprj_datal = *(tmp+2) << 16;
+	reg_mprj_datal = *(tmp+3) << 16;
+	reg_mprj_datal = *(tmp+4) << 16;
+	reg_mprj_datal = *(tmp+5) << 16;
+	reg_mprj_datal = *(tmp+6) << 16;
+	reg_mprj_datal = *(tmp+7) << 16;
+	reg_mprj_datal = *(tmp+8) << 16;
+	reg_mprj_datal = *(tmp+9) << 16;
+	reg_mprj_datal = *(tmp+10) << 16;	
+	reg_mprj_datal = 0xAB610000;
+	reg_mprj_datal = *tmp << 16;
+////////////////qs///////////////////////
+	reg_mprj_datal = 0xAB700000;
+	tmp = qsort();
+	reg_mprj_datal = *tmp << 16;
+	reg_mprj_datal = *(tmp+1) << 16;
+	reg_mprj_datal = *(tmp+2) << 16;
+	reg_mprj_datal = *(tmp+3) << 16;
+	reg_mprj_datal = *(tmp+4) << 16;
+	reg_mprj_datal = *(tmp+5) << 16;
+	reg_mprj_datal = *(tmp+6) << 16;
+	reg_mprj_datal = *(tmp+7) << 16;
+	reg_mprj_datal = *(tmp+8) << 16;
+	reg_mprj_datal = *(tmp+9) << 16;	
+	reg_mprj_datal = 0xAB710000;
+	
 }
 
